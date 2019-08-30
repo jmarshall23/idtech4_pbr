@@ -104,8 +104,10 @@ void main(
    float3 H = texCUBE( normalCubeMapImage, halfAngleVector ).xyz * 2 - 1;
    float3 NdotH = clamp( dot( N, H ), 0, 1 );
 
-   float4 metallic = 0.5;
-   float4 roughness = tex2D( specularImage, specularST );
+
+   float4 specTex = tex2D( specularImage, specularST );
+   float4 roughness = float4(specTex.r, specTex.r, specTex.r, specTex.r);
+   float4 metallic = float4(specTex.g, specTex.g, specTex.g, specTex.g);
 
    float4 Cl = tex2Dproj( lightImage, lightProjection ) *
                tex2D( lightFalloffImage, lightFalloff);
@@ -128,6 +130,6 @@ void main(
 	float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
 	float3 pbr     = numerator / max(denominator, 0.001);  
 
-   color = primaryColor * Cl * NdotL * Cd + float4(pbr.x, pbr.y, pbr.z, 0.0) * specular;
+   color = primaryColor * Cl * NdotL * Cd + (float4(pbr.x, pbr.y, pbr.z, 0.0) * (specular * Cl));
 }
 

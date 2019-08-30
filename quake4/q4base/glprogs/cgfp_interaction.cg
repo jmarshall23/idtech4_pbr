@@ -124,6 +124,6 @@ void main(
 	float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
 	float3 pbr     = numerator / max(denominator, 0.001);  
 
-   color = Cl * NdotL * Cd + float4(pbr.x, pbr.y, pbr.z, 0.0) * specular;
+   color = Cl * NdotL * Cd + (float4(pbr.x, pbr.y, pbr.z, 0.0) * specular * Cl);
 }
 
