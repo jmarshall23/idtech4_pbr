@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerCommand>D:\Projects\Quake4\Quake4_Game.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>+set in_mouse -1 +set r_fullscreen 0 +set r_mode 7 +set fs_game q4upscale +set com_allowconsole 1</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>D:\Projects\Quake4\</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>+set r_fullscreen 0 +set r_mode 7 +set fs_game q4upscale +set com_allowconsole 1</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommand>D:\Projects\Quake4\Quake4_Game.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>D:\Projects\Quake4\</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+</Project>
