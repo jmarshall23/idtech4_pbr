@@ -27,8 +27,12 @@ struct drawInteraction_t {
 void R_InitInjection(void);
 
 void RB_ARB2_DrawInteraction(drawInteraction_t *din);
+void RB_DrawView(const void *data);
+void R_LoadImage(const char *cname, byte **pic, int *width, int *height, unsigned int *timestamp, bool makePowerOf2);
+void __fastcall idImage_GetDownsize(void *_this, void *notUsed, int &scaled_width, int &scaled_height);
 
 //
 // Original Engine Addresses
 //
 extern void(*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
+extern void *(*R_StaticAlloc)(int size);
