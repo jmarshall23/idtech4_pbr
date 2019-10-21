@@ -528,6 +528,12 @@
     <ClCompile Include="game\renderer\draw_arb2.cpp">
       <Filter>Game\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="game\renderer\tr_renderer.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="game\renderer\tr_image.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">

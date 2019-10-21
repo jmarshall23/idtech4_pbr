@@ -116,6 +116,7 @@
       <LargeAddressAware>true</LargeAddressAware>
       <BaseAddress>0x20000000</BaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">
@@ -161,6 +162,7 @@
       <LargeAddressAware>true</LargeAddressAware>
       <BaseAddress>0x20000000</BaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
     <ResourceCompile>
       <ShowProgress>true</ShowProgress>
@@ -215,6 +217,7 @@
       </EntryPointSymbol>
       <BaseAddress>0x20000000</BaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
+      <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -253,7 +256,9 @@
     <ClCompile Include="game\Projectile.cpp" />
     <ClCompile Include="game\Pvs.cpp" />
     <ClCompile Include="game\renderer\draw_arb2.cpp" />
+    <ClCompile Include="game\renderer\tr_image.cpp" />
     <ClCompile Include="game\renderer\tr_inject.cpp" />
+    <ClCompile Include="game\renderer\tr_renderer.cpp" />
     <ClCompile Include="game\SecurityCamera.cpp" />
     <ClCompile Include="game\Sound.cpp" />
     <ClCompile Include="game\SplineMover.cpp" />
