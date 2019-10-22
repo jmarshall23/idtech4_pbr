@@ -5,7 +5,22 @@
 
 #include "../memoryinject/MinHook.h"
 
-class idImage;
+
+class idImage {
+public:
+	void GenerateImage(const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown)
+	{
+		void (__fastcall *GenerateImageEngine)(idImage *_this, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) = (void(__fastcall *)(idImage *, const byte *, int, int, textureFilter_t, bool, textureRepeat_t, textureDepth_t, int))0x100BA4B0;
+		GenerateImageEngine(this, pic, width, height, filter, allowDownSize, repeat, depth, unknown);
+	}
+
+	static  GLenum __fastcall SelectInternalFormat(idImage *image, void *notUsed, const byte **dataPtrs, int numDataPtrs, int width, int height, textureDepth_t minimumDepth, bool *monochromeResult) {
+		return GL_RGBA;
+	}
+};
+
+
+
 
 struct drawSurf_t {
 
@@ -24,7 +39,20 @@ struct drawInteraction_t {
 	idVec4				specularColor;	// may have a light color baked into it, will be < tr.backEndRendererMaxLight
 };
 
+class idImageManager {
+public:
+	virtual void				Init() = 0;
+	virtual void				Shutdown() = 0;
+	virtual idImage *			ImageFromFile(const char *name, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, cubeFiles_t cubeMap = CF_2D) = 0;
+	virtual idImage *			GetImage(const char *name) const = 0;
+	virtual idImage *			ImageFromFunction(const char *name, void(*generatorFunction)(idImage *image)) = 0;
+};
+
+extern idImageManager *globalImages;
+
 void R_InitInjection(void);
+
+void R_InitGameRender(void);
 
 void RB_ARB2_DrawInteraction(drawInteraction_t *din);
 void RB_STD_DrawView(void);

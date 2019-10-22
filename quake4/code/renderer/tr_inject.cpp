@@ -14,6 +14,30 @@ void(*RB_STD_DrawViewEngine)(void);
 void *(*R_StaticAlloc)(int size) = (void *(__cdecl *)(int))0x10129100;
 void *(__fastcall * idImage_GetDownsizeEngine)(void *_this, int &scaled_width, int &scaled_height);
 
+idImageManager *globalImages = *((idImageManager **)0x10316B10);
+
+void R_MemPatch(char* dst, char* src, int size)
+{
+	DWORD oldprotect;
+	VirtualProtect(dst, size, PAGE_EXECUTE_READWRITE, &oldprotect);
+	memcpy(dst, src, size);
+	VirtualProtect(dst, size, oldprotect, &oldprotect);
+}
+
+/*
+===================
+R_NonPowerOfTwoHack
+===================
+*/
+void R_NonPowerOfTwoHack(void) {
+	char memPatch[6] = { 0xFF, 0x91, 0x88, 0x00, 0x00, 0x00 }; // NOP, NOP
+	char memPatch2[1] = { 0xEB }; // JMP was JZ
+
+	// This function patches out generateImage throwing a error if we use non power of two.
+	R_MemPatch((char *)0x100BA581, memPatch, 6);
+	//R_MemPatch((char *)0x100BA572, memPatch2, 1);
+}
+
 /*
 ===================
 R_InitInjection
@@ -47,4 +71,13 @@ void R_InitInjection(void) {
 		MH_CreateHook(function, idImage_GetDownsize, (LPVOID *)&idImage_GetDownsizeEngine);
 		MH_EnableHook(function);
 	}
+
+	{
+		void *function = (void *)0x100B7730;
+		void(*notUsed)(void);
+		MH_CreateHook(function, idImage::SelectInternalFormat, (LPVOID *)&notUsed);
+		MH_EnableHook(function);
+	}
+
+	R_NonPowerOfTwoHack();
 }
