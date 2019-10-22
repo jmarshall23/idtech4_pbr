@@ -17,6 +17,9 @@ public:
 	static  GLenum __fastcall SelectInternalFormat(idImage *image, void *notUsed, const byte **dataPtrs, int numDataPtrs, int width, int height, textureDepth_t minimumDepth, bool *monochromeResult) {
 		return GL_RGBA;
 	}
+
+	int unknown;
+	GLuint texnum;
 };
 
 
