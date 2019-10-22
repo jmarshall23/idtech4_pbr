@@ -10,8 +10,8 @@ class idImage {
 public:
 	void GenerateImage(const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown)
 	{
-		void (__fastcall *GenerateImageEngine)(idImage *_this, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) = (void(__fastcall *)(idImage *, const byte *, int, int, textureFilter_t, bool, textureRepeat_t, textureDepth_t, int))0x100BA4B0;
-		GenerateImageEngine(this, pic, width, height, filter, allowDownSize, repeat, depth, unknown);
+		void (__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) = (void(__fastcall *)(idImage *, byte *, const byte *, int, int, textureFilter_t, bool, textureRepeat_t, textureDepth_t, int))0x100BA4B0;
+		GenerateImageEngine(this, nullptr, pic, width, height, filter, allowDownSize, repeat, depth, unknown);
 	}
 
 	static  GLenum __fastcall SelectInternalFormat(idImage *image, void *notUsed, const byte **dataPtrs, int numDataPtrs, int width, int height, textureDepth_t minimumDepth, bool *monochromeResult) {

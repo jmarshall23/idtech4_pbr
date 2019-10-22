@@ -8,6 +8,7 @@
 #include "tr_gamerender.h"
 
 idImage *hdrAlbedoImage = nullptr;
+bool *r_isInitilized = (bool *)(0x111243D7);
 
 /*
 ===================
@@ -36,5 +37,5 @@ R_InitGameRender
 ===================
 */
 void R_InitGameRender(void) {
-//	hdrAlbedoImage = globalImages->ImageFromFunction("_hdrAlbedo", R_InitHDRAlbedo);
+	hdrAlbedoImage = globalImages->ImageFromFunction("_hdrAlbedo", R_InitHDRAlbedo);
 }
