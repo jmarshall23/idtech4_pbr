@@ -1,26 +1,12 @@
 !!ARBvp1.0
 # cgc version 3.1.0013, build date Apr 18 2012
 # command line args: -quiet -profile arbvp1
-# source file: cgvp_interaction.cg
+# source file: cgvp_basicoccluder.cg
 #vendor NVIDIA Corporation
 #version 3.1.0.13
 #profile arbvp1
 #program main
 #semantic glstate : state
-#semantic main.lightOrigin : ENV4
-#semantic main.viewOrigin : ENV5
-#semantic main.lightProjectS : ENV6
-#semantic main.lightProjectT : ENV7
-#semantic main.lightProjectQ : ENV8
-#semantic main.lightFalloffS : ENV9
-#semantic main.bumpMatrixS : ENV10
-#semantic main.bumpMatrixT : ENV11
-#semantic main.diffuseMatrixS : ENV12
-#semantic main.diffuseMatrixT : ENV13
-#semantic main.specularMatrixS : ENV14
-#semantic main.specularMatrixT : ENV15
-#semantic main.colorModulate : ENV16
-#semantic main.colorAdd : ENV17
 #var float4 glstate.material.ambient : state.material.ambient :  : -1 : 0
 #var float4 glstate.material.diffuse : state.material.diffuse :  : -1 : 0
 #var float4 glstate.material.specular : state.material.specular :  : -1 : 0
@@ -381,194 +367,37 @@
 #var float4x4 glstate.matrix.invtrans.program[6] : state.matrix.program[6].invtrans : , 4 : -1 : 0
 #var float4x4 glstate.matrix.invtrans.program[7] : state.matrix.program[7].invtrans : , 4 : -1 : 0
 #var float4 position : $vin.POSITION : POSITION : 0 : 1
-#var float4 texCoord : $vin.ATTR8 : ATTR8 : 1 : 1
-#var float3 normal : $vin.ATTR9 : ATTR9 : 2 : 1
-#var float3 tangent0 : $vin.ATTR10 : ATTR10 : 3 : 1
-#var float3 tangent1 : $vin.ATTR11 : ATTR11 : 4 : 1
-#var float4 color : $vin.ATTR5 : ATTR5 : 5 : 1
-#var float4 lightOrigin : ENV4 : env[4] : 6 : 1
-#var float4 viewOrigin : ENV5 : env[5] : 7 : 1
-#var float4 lightProjectS : ENV6 : env[6] : 8 : 1
-#var float4 lightProjectT : ENV7 : env[7] : 9 : 1
-#var float4 lightProjectQ : ENV8 : env[8] : 10 : 1
-#var float4 lightFalloffS : ENV9 : env[9] : 11 : 1
-#var float4 bumpMatrixS : ENV10 : env[10] : 12 : 1
-#var float4 bumpMatrixT : ENV11 : env[11] : 13 : 1
-#var float4 diffuseMatrixS : ENV12 : env[12] : 14 : 1
-#var float4 diffuseMatrixT : ENV13 : env[13] : 15 : 1
-#var float4 specularMatrixS : ENV14 : env[14] : 16 : 1
-#var float4 specularMatrixT : ENV15 : env[15] : 17 : 1
-#var float4 colorModulate : ENV16 : env[16] : 18 : 1
-#var float4 colorAdd : ENV17 : env[17] : 19 : 1
-#var float3 lightVector : $vout.TEXCOORD0 : TEX0 : 20 : 1
-#var float2 bumpST : $vout.TEXCOORD1 : TEX1 : 21 : 1
-#var float2 lightFalloff : $vout.TEXCOORD2 : TEX2 : 22 : 1
-#var float3 lightProjection : $vout.TEXCOORD3 : TEX3 : 23 : 1
-#var float2 diffuseST : $vout.TEXCOORD4 : TEX4 : 24 : 1
-#var float2 specularST : $vout.TEXCOORD5 : TEX5 : 25 : 1
-#var float3 halfAngleVector : $vout.TEXCOORD6 : TEX6 : 26 : 1
-#var float3 cameraVector : $vout.TEXCOORD7 : TEX7 : 27 : 1
-#var float4 primaryColor : $vout.COL0 : COL0 : 28 : 1
-#var float4 hpos : $vout.POSITION : HPOS : 29 : 1
-#const c[0] = 0.5
-PARAM c[5] = { { 0.5 },
+#var float2 texCoord : $vin.ATTR8 : ATTR8 : 1 : 1
+#var float2 diffuseST : $vout.TEXCOORD0 : TEX0 : 2 : 1
+#var float4 hpos : $vout.POSITION : HPOS : 3 : 1
+PARAM c[5] = { program.local[0],
 		state.matrix.mvp.row[0..3] };
-PARAM env[] = { program.env[0..17] };
-TEMP R0;
-TEMP R1;
-TEMP R2;
-TEMP R3;
-ADD R2.xyz, -vertex.position, env[5];
-ADD R0.xyz, -vertex.position, env[4];
-DP3 R0.w, R2, R2;
-RSQ R1.x, R0.w;
-DP3 R0.w, R0, R0;
-MUL R1.xyz, R1.x, R2;
-RSQ R0.w, R0.w;
-MAD R3.xyz, R0, R0.w, R1;
-MUL R1, vertex.attrib[5], env[16];
-DP3 result.texcoord[6].z, vertex.attrib[9], R3;
-DP3 result.texcoord[6].y, vertex.attrib[11], R3;
-DP3 result.texcoord[6].x, vertex.attrib[10], R3;
-ADD result.color, R1, env[17];
-DP3 result.texcoord[0].z, vertex.attrib[9], R0;
-DP3 result.texcoord[0].y, R0, vertex.attrib[11];
-DP3 result.texcoord[0].x, R0, vertex.attrib[10];
-DP3 result.texcoord[7].z, vertex.attrib[9], R2;
-DP3 result.texcoord[7].y, vertex.attrib[11], R2;
-DP3 result.texcoord[7].x, vertex.attrib[10], R2;
-DP4 result.texcoord[1].y, vertex.attrib[8], env[11];
-DP4 result.texcoord[1].x, vertex.attrib[8], env[10];
-MOV result.texcoord[2].y, c[0].x;
-DP4 result.texcoord[2].x, vertex.position, env[9];
-DP4 result.texcoord[3].z, vertex.position, env[8];
-DP4 result.texcoord[3].y, vertex.position, env[7];
-DP4 result.texcoord[3].x, vertex.position, env[6];
-DP4 result.texcoord[4].y, vertex.attrib[8], env[13];
-DP4 result.texcoord[4].x, vertex.attrib[8], env[12];
-DP4 result.texcoord[5].y, vertex.attrib[8], env[15];
-DP4 result.texcoord[5].x, vertex.attrib[8], env[14];
+MOV result.texcoord[0].xy, vertex.attrib[8];
 DP4 result.position.w, vertex.position, c[4];
 DP4 result.position.z, vertex.position, c[3];
 DP4 result.position.y, vertex.position, c[2];
 DP4 result.position.x, vertex.position, c[1];
 END
-# 34 instructions, 4 R-regs
+# 5 instructions, 0 R-regs
 #====================================================================== 
 !!ARBfp1.0
 OPTION ATI_draw_buffers;
 # cgc version 3.1.0013, build date Apr 18 2012
 # command line args: -quiet -profile arbfp1
-# source file: cgfp_interaction.cg
+# source file: cgfp_basicoccluder.cg
 #vendor NVIDIA Corporation
 #version 3.1.0.13
 #profile arbfp1
 #program main
-#semantic main.diffuse : ENV0
-#semantic main.specular : ENV1
-#semantic main.bumpImage : TEXUNIT1
-#semantic main.lightFalloffImage : TEXUNIT2
-#semantic main.lightImage : TEXUNIT3
 #semantic main.diffuseImage : TEXUNIT4
-#semantic main.specularImage : TEXUNIT5
-#semantic main.normalCubeMapImage : TEXUNIT0
-#semantic main.specularTableImage : TEXUNIT6
-#var float4 primaryColor : $vin.COLOR0 :  : 0 : 0
-#var float3 lightVector : $vin.TEXCOORD0 : TEX0 : 1 : 1
-#var float2 bumpST : $vin.TEXCOORD1 : TEX1 : 2 : 1
-#var float2 lightFalloff : $vin.TEXCOORD2 : TEX2 : 3 : 1
-#var float3 lightProjection : $vin.TEXCOORD3 : TEX3 : 4 : 1
-#var float2 diffuseST : $vin.TEXCOORD4 :  : 5 : 0
-#var float2 specularST : $vin.TEXCOORD5 : TEX5 : 6 : 1
-#var float3 halfAngleVector : $vin.TEXCOORD6 : TEX6 : 7 : 1
-#var float3 cameraVector : $vin.TEXCOORD7 : TEX7 : 8 : 1
-#var float4 diffuse : ENV0 : env[0] : 9 : 1
-#var float4 specular : ENV1 : env[1] : 10 : 1
-#var sampler2D bumpImage : TEXUNIT1 : texunit 1 : 11 : 1
-#var sampler2D lightFalloffImage : TEXUNIT2 : texunit 2 : 12 : 1
-#var sampler2D lightImage : TEXUNIT3 : texunit 3 : 13 : 1
-#var sampler2D diffuseImage : TEXUNIT4 : texunit 4 : 14 : 0
-#var sampler2D specularImage : TEXUNIT5 : texunit 5 : 15 : 1
-#var samplerCUBE normalCubeMapImage : TEXUNIT0 : texunit 0 : 16 : 1
-#var sampler2D specularTableImage : TEXUNIT6 : texunit 6 : 17 : 0
-#var float4 color0 : $vout.COLOR0 : COL : 18 : 1
-#var float4 color1 : $vout.COLOR1 : COL1 : 19 : 1
-#const c[0] = 0 2 1 0.125
-#const c[1] = 0.039999999 0.5 5 4
-#const c[2] = 0.001 0.31830987
-PARAM c[3] = { { 0, 2, 1, 0.125 },
-		{ 0.039999999, 0.5, 5, 4 },
-		{ 0.001, 0.31830987 } };
-PARAM env[] = { program.env[0..1] };
-TEMP R0;
-TEMP R1;
-TEMP R2;
-TEMP R3;
-TEMP R4;
-TEX R0.yzw, fragment.texcoord[1], texture[1], 2D;
-MAD R0.xyz, R0.yzww, c[0].y, -c[0].z;
-DP3 R0.w, R0, R0;
-RSQ R0.w, R0.w;
-MUL R3.xyz, R0.w, R0;
-TEX R0.xyz, fragment.texcoord[0], texture[0], CUBE;
-MAD R4.xyz, R0, c[0].y, -c[0].z;
-DP3 R0.x, R3, R4;
-TEX R2.x, fragment.texcoord[5], texture[5], 2D;
-ADD R0.y, R2.x, c[0].z;
-MUL R0.y, R0, R0;
-MAX R0.w, R0.x, c[0].x;
-DP3 R1.x, fragment.texcoord[7], fragment.texcoord[7];
-RSQ R1.x, R1.x;
-MUL R1.xyz, R1.x, fragment.texcoord[7];
-DP3 R1.w, R3, R1;
-MUL R2.x, R2, R2;
-MUL R2.x, R2, R2;
-MUL R0.z, R0.y, c[0].w;
-MAD R0.x, -R0.y, c[0].w, c[0].z;
-MAD R0.y, R0.w, R0.x, R0.z;
-MAX R2.y, R1.w, c[0].x;
-MAD R0.x, R0, R2.y, R0.z;
-RCP R0.y, R0.y;
-RCP R2.z, R0.x;
-MUL R1.w, R0, R0.y;
-MUL R2.z, R2.y, R2;
-MUL R2.y, R0.w, R2;
-TEX R0.xyz, fragment.texcoord[6], texture[0], CUBE;
-MAD R0.xyz, R0, c[0].y, -c[0].z;
-DP3 R2.w, R3, R0;
-DP3 R0.y, R0, R1;
-MAX R1.x, R0.y, c[0];
-MAX R2.w, R2, c[0].x;
-MOV R0.x, c[1];
-ADD R0.xyz, -R0.x, env[0];
-MUL R1.w, R1, R2.z;
-ADD R3.w, R2.x, -c[0].z;
-MUL R2.w, R2, R2;
-MAD R2.w, R2, R3, c[0].z;
-MUL R2.z, R2.w, R2.w;
-RCP R0.w, R2.z;
-MUL R0.w, R0, R2.x;
-ADD R1.x, -R1, c[0].z;
-MUL R0.w, R0, R1;
-MUL R2.y, R2, c[1].w;
-MAX R1.w, R2.y, c[2].x;
-POW R2.x, R1.x, c[1].z;
-MAD R0.xyz, R0, c[1].y, c[1].x;
-ADD R1.xyz, -R0, c[0].z;
-MAD R0.xyz, R1, R2.x, R0;
-MUL R0.xyz, R0.w, R0;
-RCP R1.x, R1.w;
-MUL R0.xyz, R0, R1.x;
-MOV R0.w, c[0].x;
-MUL R0.xyz, R0, c[2].y;
-MUL R2, R0, env[1];
-TEX R1, fragment.texcoord[2], texture[2], 2D;
-TXP R0, fragment.texcoord[3].xyzz, texture[3], 2D;
-MUL R0, R0, R1;
-MUL R1, R0, R2;
-DP3_SAT R3.x, R3, R4;
-MUL R0, R0, R3.x;
-MAD result.color, R0, env[0], R1;
-MOV result.color[1], c[0].x;
+#var float4 diffuseST : $vin.TEXCOORD0 : TEX0 : 0 : 1
+#var sampler2D diffuseImage : TEXUNIT4 : texunit 4 : 1 : 1
+#var float4 color0 : $vout.COLOR0 : COL : 2 : 1
+#var float4 color1 : $vout.COLOR1 : COL1 : 3 : 1
+#const c[0] = 1 0
+PARAM c[1] = { { 1, 0 } };
+MOV result.color, c[0].y;
+TEX result.color[1].xyz, fragment.texcoord[0], texture[4], 2D;
+MOV result.color[1].w, c[0].x;
 END
-# 65 instructions, 5 R-regs
+# 3 instructions, 0 R-regs

@@ -10,6 +10,7 @@
 void (*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
 void (*R_LoadImageEngine)(const char *name, byte **pic, int *width, int *height, unsigned int *timestamp);
 void(*RB_STD_DrawViewEngine)(void);
+void(*RB_T_FillDepthBufferEngine)(const drawSurf_t *surf);
 
 void *(*R_StaticAlloc)(int size) = (void *(__cdecl *)(int))0x10129100;
 void *(__fastcall * idImage_GetDownsizeEngine)(void *_this, int &scaled_width, int &scaled_height);
@@ -76,6 +77,12 @@ void R_InitInjection(void) {
 		void *function = (void *)0x100B7730;
 		void(*notUsed)(void);
 		MH_CreateHook(function, idImage::SelectInternalFormat, (LPVOID *)&notUsed);
+		MH_EnableHook(function);
+	}
+
+	{
+		void *function = (void *)0x100A7650;
+		MH_CreateHook(function, RB_T_FillDepthBuffer, (LPVOID *)&RB_T_FillDepthBufferEngine);
 		MH_EnableHook(function);
 	}
 

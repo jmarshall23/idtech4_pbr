@@ -549,6 +549,9 @@
     <ClCompile Include="game\renderer\tr_rendertexture.cpp">
       <Filter>Game\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="game\renderer\draw_common.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">

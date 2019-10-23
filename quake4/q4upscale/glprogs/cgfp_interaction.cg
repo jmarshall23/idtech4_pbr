@@ -88,14 +88,16 @@ void main(
 	   uniform sampler2D   specularImage  : TEXUNIT5,
 	   uniform samplerCUBE normalCubeMapImage : TEXUNIT0,
 	   uniform sampler2D   specularTableImage : TEXUNIT6,
-           out float4  color : COLOR)
+           out float4  color0 : COLOR0,
+           out float4  color1 : COLOR1)
 {
+
    float3 L = texCUBE( normalCubeMapImage, lightVector ).xyz * 2 - 1;
    float4 bumpMap = tex2D( bumpImage, bumpST );
    float3 N = normalize(float3(bumpMap.y, bumpMap.z, bumpMap.w) * 2 - 1);
    float  NdotL = clamp( dot( N, L ), 0, 1 );
 
-   float4 Cd = diffuse * tex2D( diffuseImage, diffuseST );
+   float4 Cd = diffuse; // * tex2D( diffuseImage, diffuseST );
 
    float3 H = texCUBE( normalCubeMapImage, halfAngleVector ).xyz * 2 - 1;
    float3 NdotH = clamp( dot( N, H ), 0, 1 );
@@ -124,6 +126,7 @@ void main(
 	float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
 	float3 pbr     = numerator / max(denominator, 0.001);  
 
-   color = Cl * NdotL * Cd + (float4(pbr.x, pbr.y, pbr.z, 0.0) * specular * Cl);
+   color0 = Cl * NdotL * Cd + (float4(pbr.x, pbr.y, pbr.z, 0.0) * specular * Cl);
+ color1 = float4(0, 0, 0, 0);
 }
 

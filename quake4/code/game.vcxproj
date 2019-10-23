@@ -261,6 +261,7 @@
     <ClCompile Include="game\Projectile.cpp" />
     <ClCompile Include="game\Pvs.cpp" />
     <ClCompile Include="game\renderer\draw_arb2.cpp" />
+    <ClCompile Include="game\renderer\draw_common.cpp" />
     <ClCompile Include="game\renderer\tr_image.cpp" />
     <ClCompile Include="game\renderer\tr_inject.cpp" />
     <ClCompile Include="game\renderer\tr_main.cpp" />

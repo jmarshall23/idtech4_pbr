@@ -75,12 +75,18 @@ void RB_ARB2_DrawInteraction(drawInteraction_t *din);
 void RB_STD_DrawView(void);
 void R_LoadImage(const char *cname, byte **pic, int *width, int *height, unsigned int *timestamp, bool makePowerOf2);
 void __fastcall idImage_GetDownsize(void *_this, void *notUsed, int &scaled_width, int &scaled_height);
+void RB_T_FillDepthBuffer(const drawSurf_t *surf);
 
 //
 // Original Engine Addresses
 //
 extern void(*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
 extern void *(*R_StaticAlloc)(int size);
+extern int(*R_FindARBProgram)(GLenum target, const char *program);
+extern void(*RB_T_FillDepthBufferEngine)(const drawSurf_t *surf);
+
+extern GLuint basicOccluderVertex;
+extern GLuint basicOccluderFragment;
 
 
 const int GLS_SRCBLEND_ZERO = 0x00000001;

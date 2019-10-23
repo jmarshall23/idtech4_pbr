@@ -50,6 +50,7 @@ void(*RB_DrawSurfacesWithFlags)(drawSurf_t **drawSurfs, int numDrawSurfs, int un
 void(*RB_STD_FogAllLights)(void) = (void(__cdecl *)(void))0x100A8DE0;
 void(*RB_STD_DrawShaderPasses)(drawSurf_t **drawSurfs, int numDrawSurfs) = (void(__cdecl *)(drawSurf_t **, int))0x10131570;
 void(*RB_Unknown)(int unknown1, int unknown2) = (void(__cdecl *)(int, int))0x10112AA0;
+int(*R_FindARBProgram)(GLenum target, const char *program) = (int(__cdecl *)(GLenum, const char *))0x100A6CE0;
 
 /*
 =============

@@ -1,7 +1,5 @@
 @echo off
 del post_newpost.vfp
-cgc  -profile arbvp1 cgvp_newpost.cg
+cgc -quiet -profile arbvp1 cgvp_newpost.cg >> post_newpost.vfp
 echo #====================================================================== >> post_newpost.vfp
-cgc -profile arbfp1 cgfp_newpost.cg
-
-pause
+cgc -quiet -profile arbfp1 cgfp_newpost.cg >> post_newpost.vfp

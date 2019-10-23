@@ -1,16 +1,48 @@
+float3 LinearToneMap(float exposure, float3 hdrColor)
+{
+    const float gamma = 1.8;
+
+    // Exposure tone mapping
+   float3 mapped = hdrColor / (hdrColor + float3(1.0, 1.0, 1.0));
+    // Gamma correction 
+    mapped = pow(mapped, vec3(1.0 / gamma));
+  
+    return mapped;
+}
+
+float3 Uncharted2ToneMapping(float3 color)
+{
+	const float gamma = 1.0;
+
+	float A = 0.15;
+	float B = 0.50;
+	float C = 0.10;
+	float D = 0.20;
+	float E = 0.02;
+	float F = 0.30;
+	float W = 11.2;
+	float exposure = 2.;
+	color *= exposure;
+	color = ((color * (A * color + C * B) + D * E) / (color * (A * color + B) + D * F)) - E / F;
+	float white = ((W * (A * W + C * B) + D * E) / (W * (A * W + B) + D * F)) - E / F;
+	color /= white;
+	color = pow(color, float3(1. / gamma));
+	return color;
+}
+
 void main( 
 	   float4      diffuseST        : TEXCOORD0,
 
-	   uniform float4 env : LOCAL0,
-	   uniform sampler2D   diffuseImage  : TEXUNIT0,
+	   uniform sampler2D   litImage  : TEXUNIT0,
+	   uniform sampler2D   albedoImage  : TEXUNIT1,
            out float4  color : COLOR)
 {
     float2 texcoord = diffuseST.xy;
-    texcoord.y = 1.0 - texcoord.y;
-   
-    float3 diffuse = tex2D(diffuseImage, texcoord).rgb
- 
-    color.xyz = diffuse;
+
+    float3 lit = tex2D(litImage, texcoord).rgb;
+    float3 albedo  = tex2D(albedoImage, texcoord).rgb;
+
+    color.xyz = (lit + float3(0.1, 0.1, 0.1)) * albedo;
     color.a = 1;
 }
 
