@@ -27,7 +27,7 @@ void RB_T_FillDepthBuffer(const drawSurf_t *surf) {
 	
 	if (diffuseTexNum != -1)
 	{
-		glActiveTextureARB(GL_TEXTURE4_ARB);
+		GL_SelectTexture(4);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, diffuseTexNum);
 	
@@ -35,6 +35,7 @@ void RB_T_FillDepthBuffer(const drawSurf_t *surf) {
 		glEnable(GL_FRAGMENT_PROGRAM_ARB);
 		glBindProgramARB(GL_VERTEX_PROGRAM_ARB, basicOccluderVertex);
 		glBindProgramARB(GL_FRAGMENT_PROGRAM_ARB, basicOccluderFragment);
+		GL_SelectTexture(0);
 	}
 	RB_T_FillDepthBufferEngine(surf);
 	if (diffuseTexNum != -1)
@@ -42,8 +43,8 @@ void RB_T_FillDepthBuffer(const drawSurf_t *surf) {
 		glDisable(GL_VERTEX_PROGRAM_ARB);
 		glDisable(GL_FRAGMENT_PROGRAM_ARB);
 	
-		glActiveTextureARB(GL_TEXTURE4_ARB);
+		GL_SelectTexture(4);
 		glDisable(GL_TEXTURE_2D);
-		glActiveTextureARB(GL_TEXTURE0_ARB);
+		GL_SelectTexture(0);
 	}
 }

@@ -85,6 +85,8 @@ extern void *(*R_StaticAlloc)(int size);
 extern int(*R_FindARBProgram)(GLenum target, const char *program);
 extern void(*RB_T_FillDepthBufferEngine)(const drawSurf_t *surf);
 
+extern void(*GL_SelectTexture)(int unit);
+
 extern GLuint basicOccluderVertex;
 extern GLuint basicOccluderFragment;
 
