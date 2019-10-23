@@ -43,6 +43,12 @@
     <Filter Include="Game\MemoryInject">
       <UniqueIdentifier>{a034250d-694e-41fc-84ba-d412e1ac271e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{83fdff4f-2faa-47a5-ae06-c136c859697f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\glew">
+      <UniqueIdentifier>{c000ce81-62ca-4fa2-a242-1db9388acb91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game\Actor.cpp">
@@ -534,6 +540,15 @@
     <ClCompile Include="game\renderer\tr_image.cpp">
       <Filter>Game\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="game\renderer\tr_main.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="external\glew\glew.c">
+      <Filter>External\glew</Filter>
+    </ClCompile>
+    <ClCompile Include="game\renderer\tr_rendertexture.cpp">
+      <Filter>Game\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -852,6 +867,15 @@
       <Filter>Game\MemoryInject</Filter>
     </ClInclude>
     <ClInclude Include="game\renderer\tr_gamerender.h">
+      <Filter>Game\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glew\glew.h">
+      <Filter>External\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="external\glew\wglew.h">
+      <Filter>External\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="game\renderer\tr_rendertexture.h">
       <Filter>Game\Renderer</Filter>
     </ClInclude>
   </ItemGroup>

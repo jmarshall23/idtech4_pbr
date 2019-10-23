@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/FIXED:no %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\gamex86.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ModuleDefinitionFile>.\game\game.def</ModuleDefinitionFile>
@@ -145,7 +145,7 @@
       <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(IntDir)$(ProjectName)x86.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -199,7 +199,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:I386 /fixed:no %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(IntDir)idLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../gamex86.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ModuleDefinitionFile>.\game\game.def</ModuleDefinitionFile>
@@ -221,6 +221,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="external\glew\glew.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="game\Actor.cpp" />
     <ClCompile Include="game\AF.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">Create</PrecompiledHeader>
@@ -258,7 +263,9 @@
     <ClCompile Include="game\renderer\draw_arb2.cpp" />
     <ClCompile Include="game\renderer\tr_image.cpp" />
     <ClCompile Include="game\renderer\tr_inject.cpp" />
+    <ClCompile Include="game\renderer\tr_main.cpp" />
     <ClCompile Include="game\renderer\tr_renderer.cpp" />
+    <ClCompile Include="game\renderer\tr_rendertexture.cpp" />
     <ClCompile Include="game\SecurityCamera.cpp" />
     <ClCompile Include="game\Sound.cpp" />
     <ClCompile Include="game\SplineMover.cpp" />
@@ -390,6 +397,8 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\glew\glew.h" />
+    <ClInclude Include="external\glew\wglew.h" />
     <ClInclude Include="game\Actor.h" />
     <ClInclude Include="game\AF.h" />
     <ClInclude Include="game\AFEntity.h" />
@@ -421,6 +430,7 @@
     <ClInclude Include="game\Projectile.h" />
     <ClInclude Include="game\Pvs.h" />
     <ClInclude Include="game\renderer\tr_gamerender.h" />
+    <ClInclude Include="game\renderer\tr_rendertexture.h" />
     <ClInclude Include="game\SecurityCamera.h" />
     <ClInclude Include="game\Sound.h" />
     <ClInclude Include="game\SplineMover.h" />

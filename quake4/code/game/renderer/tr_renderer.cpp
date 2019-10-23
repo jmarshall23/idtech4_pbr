@@ -66,6 +66,11 @@ void RB_STD_DrawView(void) {
 	drawSurfs = (*backEnd_viewDef)->drawSurfs;
 	numDrawSurfs = (*backEnd_viewDef)->numDrawSurfs;
 
+	if ((*backEnd_viewDef)->unknown3)
+	{
+		forwardRender->MakeCurrent();
+	}
+
 	RB_Unknown((*backEnd_viewDef)->unknown3, 1);
 
 	// clear the z buffer, set the projection matrix, etc
@@ -89,7 +94,10 @@ void RB_STD_DrawView(void) {
 	// Draw the decals
 	RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, -10000, 3);
 
-	RB_STD_FogAllLights();
+	idRenderTexture::BindNull();
+	
+	// Clear the window depth buffer.
+	RB_BeginDrawingView();
 
 	// Draw the ambient
 	if (!(*backEnd_viewDef)->unknown3)

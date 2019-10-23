@@ -1,0 +1,22 @@
+postprocess/newpost
+{
+	{
+		map _forwardHDRAlbedo
+	}
+}
+
+postprocess/casupscale_1024
+{
+	{
+		program post_cas_1024.vfp
+		fragmentMap 0 _forwardHDRAlbedo
+	}
+}
+
+postprocess/casupscale_1280
+{
+	{
+		program post_cas_1280.vfp
+		fragmentMap 0 _forwardHDRAlbedo
+	}
+}

@@ -1,0 +1,16 @@
+void main( 
+	   float4      diffuseST        : TEXCOORD0,
+
+	   uniform float4 env : LOCAL0,
+	   uniform sampler2D   diffuseImage  : TEXUNIT0,
+           out float4  color : COLOR)
+{
+    float2 texcoord = diffuseST.xy;
+    texcoord.y = 1.0 - texcoord.y;
+   
+    float3 diffuse = tex2D(diffuseImage, texcoord).rgb
+ 
+    color.xyz = diffuse;
+    color.a = 1;
+}
+

@@ -4,7 +4,15 @@
 #pragma once
 
 #include "../memoryinject/MinHook.h"
+#include "tr_rendertexture.h"
 
+// idScreenRect gets carried around with each drawSurf, so it makes sense
+// to keep it compact, instead of just using the idBounds class
+class idScreenRect {
+public:
+	short		x1, y1, x2, y2;							// inclusive pixel bounds inside viewport
+	float       zmin, zmax;								// for depth bounds test
+};
 
 class idImage {
 public:
@@ -18,16 +26,22 @@ public:
 		return GL_RGBA;
 	}
 
-	int unknown;
+	int unknown2;
 	GLuint texnum;
 };
 
-
-
-
-struct drawSurf_t {
-
-};
+typedef struct drawSurf_s {
+	const srfTriangles_t	*geo;
+	const struct viewEntity_s *space;
+	const idMaterial		*material;	// may be NULL for shadow volumes
+	float					sort;		// material->sort, modified by gui / entity sort offsets
+	const float				*shaderRegisters;	// evaluated and adjusted for referenceShaders
+	const struct drawSurf_s	*nextOnLight;	// viewLight chains
+	idScreenRect			scissorRect;	// for scissor clipping, local inside renderView viewport
+	int						dsFlags;			// DSF_VIEW_INSIDE_SHADOW, etc
+	struct vertCache_s		*dynamicTexCoords;	// float * in vertex cache memory
+	// specular directions for non vertex program cards, skybox texcoords, etc
+} drawSurf_t;
 
 struct drawInteraction_t {
 	const drawSurf_t *	surf;
@@ -112,3 +126,9 @@ const int GLS_ATEST_GE_128 = 0x40000000;
 const int GLS_ATEST_BITS = 0x70000000;
 
 const int GLS_DEFAULT = GLS_DEPTHFUNC_ALWAYS;
+
+//
+// Render Targets.
+//
+
+extern idRenderTexture *forwardRender;
