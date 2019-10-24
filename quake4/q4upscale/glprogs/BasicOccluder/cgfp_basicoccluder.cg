@@ -7,10 +7,10 @@ void main(
 {
     float2 texcoord = diffuseST.xy;
 
-    float3 diffuse = tex2D(diffuseImage, texcoord).rgb;
+    float4 diffuse = tex2D(diffuseImage, texcoord).rgba;
  
-    color0.xyzw = float4(0, 0, 0, 0);
-    color1.xyz = diffuse;
+    color0.xyzw = float4(0, 0, 0, diffuse.a);
+    color1.xyz = diffuse.rgb;
     color1.a = 1;
 }
 
