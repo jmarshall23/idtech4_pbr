@@ -6,6 +6,9 @@
 
 bool idAnimManager::forceExport = false;
 
+static const byte B_ANIM_MD5_VERSION = 101;
+static const unsigned int B_ANIM_MD5_MAGIC = ('B' << 24) | ('M' << 16) | ('D' << 8) | B_ANIM_MD5_VERSION;
+
 /***********************************************************************
 
 	idMD5Anim
@@ -140,6 +143,19 @@ bool idMD5Anim::LoadAnim( const char *filename ) {
 	idToken	token;
 	int		i, j;
 	int		num;
+
+	idStr generatedFileName = "generated/anim/";
+	generatedFileName.AppendPath(filename);
+	generatedFileName.SetFileExtension(".bMD5anim");
+
+	// Get the timestamp on the original file, if it's newer than what is stored in binary model, regenerate it
+	unsigned int sourceTimeStamp = fileSystem->GetTimestamp(filename);
+
+	idFileScoped file(fileSystem->OpenFileRead(generatedFileName));
+	if (LoadBinary(file, sourceTimeStamp)) {
+		name = filename;
+		return true;
+	}
 
 	if ( !parser.LoadFile( filename ) ) {
 		return false;
@@ -305,8 +321,151 @@ bool idMD5Anim::LoadAnim( const char *filename ) {
 	// we don't count last frame because it would cause a 1 frame pause at the end
 	animLength = ( ( numFrames - 1 ) * 1000 + frameRate - 1 ) / frameRate;
 
+	common->Printf("Writing %s\n", generatedFileName.c_str());
+	idFileScoped outputFile(fileSystem->OpenFileWrite(generatedFileName, "fs_basepath"));
+	WriteBinary(outputFile, sourceTimeStamp);
+
 	// done
 	return true;
+}
+
+/*
+========================
+idMD5Anim::LoadBinary
+========================
+*/
+bool idMD5Anim::LoadBinary(idFile * file, unsigned int sourceTimeStamp) {
+
+	if (file == NULL) {
+		return false;
+	}
+
+	unsigned int magic = 0;
+	file->ReadBig(magic);
+	if (magic != B_ANIM_MD5_MAGIC) {
+		return false;
+	}
+
+	unsigned int loadedTimeStamp;
+	file->ReadBig(loadedTimeStamp);
+	if (sourceTimeStamp != loadedTimeStamp) {
+		return false;
+	}
+
+	file->ReadBig(numFrames);
+	file->ReadBig(frameRate);
+	file->ReadBig(animLength);
+	file->ReadBig(numJoints);
+	file->ReadBig(numAnimatedComponents);
+
+	int num;
+	file->ReadBig(num);
+	bounds.SetNum(num);
+	for (int i = 0; i < num; i++) {
+		idBounds & b = bounds[i];
+		file->ReadBig(b[0]);
+		file->ReadBig(b[1]);
+	}
+
+	file->ReadBig(num);
+	jointInfo.SetNum(num);
+	for (int i = 0; i < num; i++) {
+		jointAnimInfo_t & j = jointInfo[i];
+
+		idStr jointName;
+		file->ReadString(jointName);
+		if (jointName.IsEmpty()) {
+			j.nameIndex = -1;
+		}
+		else {
+			j.nameIndex = animationLib->JointIndex(jointName.c_str());
+		}
+
+		file->ReadBig(j.parentNum);
+		file->ReadBig(j.animBits);
+		file->ReadBig(j.firstComponent);
+	}
+
+	file->ReadBig(num);
+	baseFrame.SetNum(num);
+	for (int i = 0; i < num; i++) {
+		idJointQuat & j = baseFrame[i];
+		file->ReadBig(j.q.x);
+		file->ReadBig(j.q.y);
+		file->ReadBig(j.q.z);
+		file->ReadBig(j.q.w);
+		file->ReadVec3(j.t);
+		//		j.w = 0.0f;
+	}
+
+	file->ReadBig(num);
+	componentFrames.SetNum(num);
+	for (int i = 0; i < componentFrames.Num(); i++) {
+		file->ReadFloat(componentFrames[i]);
+	}
+
+	//file->ReadString( name );
+	file->ReadVec3(totaldelta);
+	//file->ReadBig( ref_count );
+
+	return true;
+}
+
+/*
+========================
+idMD5Anim::WriteBinary
+========================
+*/
+void idMD5Anim::WriteBinary(idFile * file, unsigned int sourceTimeStamp) {
+
+	if (file == NULL) {
+		return;
+	}
+
+	file->WriteBig(B_ANIM_MD5_MAGIC);
+	file->WriteBig(sourceTimeStamp);
+
+	file->WriteBig(numFrames);
+	file->WriteBig(frameRate);
+	file->WriteBig(animLength);
+	file->WriteBig(numJoints);
+	file->WriteBig(numAnimatedComponents);
+
+	file->WriteBig(bounds.Num());
+	for (int i = 0; i < bounds.Num(); i++) {
+		idBounds & b = bounds[i];
+		file->WriteBig(b[0]);
+		file->WriteBig(b[1]);
+	}
+
+	file->WriteBig(jointInfo.Num());
+	for (int i = 0; i < jointInfo.Num(); i++) {
+		jointAnimInfo_t & j = jointInfo[i];
+		idStr jointName = animationLib->JointName(j.nameIndex);
+		file->WriteString(jointName);
+		file->WriteBig(j.parentNum);
+		file->WriteBig(j.animBits);
+		file->WriteBig(j.firstComponent);
+	}
+
+	file->WriteBig(baseFrame.Num());
+	for (int i = 0; i < baseFrame.Num(); i++) {
+		idJointQuat & j = baseFrame[i];
+		file->WriteBig(j.q.x);
+		file->WriteBig(j.q.y);
+		file->WriteBig(j.q.z);
+		file->WriteBig(j.q.w);
+		file->WriteVec3(j.t);
+	}
+
+	file->WriteBig(componentFrames.Num());
+	for (int i = 0; i < componentFrames.Num(); i++) {
+		file->WriteFloat(componentFrames[i]);
+	}
+
+	//file->WriteString( name );
+	file->WriteVec3(totaldelta);
+	//file->WriteBig( ref_count );
 }
 
 /*

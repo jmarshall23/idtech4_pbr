@@ -97,6 +97,29 @@ public:
 	// jscott: for savegame and demo file syncing
 	virtual void			WriteSyncId( void ) = 0;
 	virtual void			ReadSyncId( const char *detail = "unspecified", const char *classname = NULL ) = 0;
+	
+	template<class type> ID_INLINE size_t ReadBig(type &c) {
+		size_t r = Read(&c, sizeof(c));
+		return r;
+	}
+
+	template<class type> ID_INLINE size_t ReadBigArray(type *c, int count) {
+		size_t r = Read(c, sizeof(c[0]) * count);
+		return r;
+	}
+
+	template<class type> ID_INLINE size_t WriteBig(const type &c) {
+		type b = c;
+		return Write(&b, sizeof(b));
+	}
+
+	template<class type> ID_INLINE size_t WriteBigArray(const type *c, int count) {
+		size_t r = 0;
+		for (int i = 0; i < count; i++) {
+			r += WriteBig(c[i]);
+		}
+		return r;
+	}
 };
 
 class idFile_Common : public idFile

@@ -269,7 +269,10 @@ private:
 	idStr					name;
 	idVec3					totaldelta;
 	mutable int				ref_count;
-
+// jmarshall
+	bool					LoadBinary(idFile * file, unsigned int sourceTimeStamp);
+	void					WriteBinary(idFile * file, unsigned int sourceTimeStamp);
+// jmarshall end
 public:
 							idMD5Anim();
 							~idMD5Anim();

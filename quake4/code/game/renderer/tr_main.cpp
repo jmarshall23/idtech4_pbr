@@ -102,4 +102,8 @@ void R_InitGameRender(void) {
 	forwardRender = new idRenderTexture(hdrLightingImage, forwardDepthImage);
 	forwardRender->AddRenderImage(forwardAlbedoImage);
 	forwardRender->InitRenderTexture(false, true);
+
+	// Disable hardware brightness/gamma
+	cvarSystem->SetCVarInteger("r_brightness", 1);
+	cvarSystem->SetCVarInteger("r_gamma", 1);
 }

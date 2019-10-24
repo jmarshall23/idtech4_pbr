@@ -411,8 +411,54 @@ public:
 	virtual void			SelectDefaultLanguage( void ) = 0;
 
 	virtual void			ClearAddonList( void ) = 0;
+	
+	// This is just handy
+	unsigned int			GetTimestamp(const char * relativePath);
 };
 
 extern idFileSystem *		fileSystem;
+
+/*
+================================================
+idFileScoped is a FileStream wrapper that automatically closes a file when the
+class variable goes out of scope. Note that the pointer passed in to the constructor can be for
+any type of File Stream that ultimately inherits from idFile, and that this is not actually a
+SmartPointer, as it does not keep a reference count.
+================================================
+*/
+class idFileScoped {
+public:
+	// Constructor that accepts and stores the file pointer.
+	idFileScoped(idFile *_file) : file(_file) {
+	}
+
+	// Destructor that will destroy (close) the file when this wrapper class goes out of scope.
+	~idFileScoped() {
+		fileSystem->CloseFile(file);
+	}
+
+	// Cast to a file pointer.
+	operator idFile * () const {
+		return file;
+	}
+
+	// Member access operator for treating the wrapper as if it were the file, itself.
+	idFile * operator -> () const {
+		return file;
+	}
+
+protected:
+	idFile *file;	// The managed file pointer.
+};
+
+// This is just handy
+ID_INLINE unsigned int idFileSystem::GetTimestamp(const char * relativePath) {	
+	idFileScoped file(fileSystem->OpenFileRead(relativePath));
+	if (file == nullptr)
+		return FILE_NOT_FOUND_TIMESTAMP;
+
+	unsigned int timeStamp = file->Timestamp();
+	return timeStamp;
+}
 
 #endif /* !__FILESYSTEM_H__ */
