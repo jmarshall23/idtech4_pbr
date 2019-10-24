@@ -32,6 +32,13 @@ void __fastcall idImage_GetDownsize(void *_this, void *notUsed, int &scaled_widt
 	// Do nothing.
 }
 
+void __fastcall idImage_GenerateImage(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) {
+	GenerateImageEngine(_this, nullptr, pic, width, height, filter, false, repeat, depth, unknown);
+
+	// Use the driver to generate the mipchain.
+	glGenerateTextureMipmap(_this->texnum);
+}
+
 /*
 ========================================================================
 

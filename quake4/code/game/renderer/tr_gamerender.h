@@ -6,6 +6,9 @@
 #include "../memoryinject/MinHook.h"
 #include "tr_rendertexture.h"
 
+void __fastcall idImage_GenerateImage(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown);
+extern void(__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown);
+
 // idScreenRect gets carried around with each drawSurf, so it makes sense
 // to keep it compact, instead of just using the idBounds class
 class idScreenRect {
@@ -18,7 +21,7 @@ class idImage {
 public:
 	void GenerateImage(const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown)
 	{
-		void (__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) = (void(__fastcall *)(idImage *, byte *, const byte *, int, int, textureFilter_t, bool, textureRepeat_t, textureDepth_t, int))0x100BA4B0;
+		//void (__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown) = (void(__fastcall *)(idImage *, byte *, const byte *, int, int, textureFilter_t, bool, textureRepeat_t, textureDepth_t, int))0x100BA4B0;
 		GenerateImageEngine(this, nullptr, pic, width, height, filter, allowDownSize, repeat, depth, unknown);
 	}
 

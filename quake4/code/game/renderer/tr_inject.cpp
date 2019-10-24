@@ -11,6 +11,7 @@ void (*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
 void (*R_LoadImageEngine)(const char *name, byte **pic, int *width, int *height, unsigned int *timestamp);
 void(*RB_STD_DrawViewEngine)(void);
 void(*RB_T_FillDepthBufferEngine)(const drawSurf_t *surf);
+void(__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte *pic, int width, int height, textureFilter_t filter, bool allowDownSize, textureRepeat_t repeat, textureDepth_t depth, int unknown);;
 
 void *(*R_StaticAlloc)(int size) = (void *(__cdecl *)(int))0x10129100;
 void *(__fastcall * idImage_GetDownsizeEngine)(void *_this, int &scaled_width, int &scaled_height);
@@ -31,12 +32,22 @@ R_NonPowerOfTwoHack
 ===================
 */
 void R_NonPowerOfTwoHack(void) {
-	char memPatch[6] = { 0xFF, 0x91, 0x88, 0x00, 0x00, 0x00 }; // NOP, NOP
-	char memPatch2[1] = { 0xEB }; // JMP was JZ
-
+	char memPatch[6] = { 0xFF, 0x91, 0x88, 0x00, 0x00, 0x00 }; 
+	
 	// This function patches out generateImage throwing a error if we use non power of two.
 	R_MemPatch((char *)0x100BA581, memPatch, 6);
-	//R_MemPatch((char *)0x100BA572, memPatch2, 1);
+}
+
+/*
+===================
+R_DisableOldMipGen
+===================
+*/
+void R_DisableOldMipGen(void) {
+	char memPatch[6] = { 0x0F, 0x84, 0xD3, 0x00, 0x00, 0x00 };
+
+	// Disable the flag for mip generation
+	R_MemPatch((char *)0x100BA878, memPatch, 6);
 }
 
 /*
@@ -86,5 +97,12 @@ void R_InitInjection(void) {
 		MH_EnableHook(function);
 	}
 
+	{
+		void *function = (void *)0x100BA4B0;
+		MH_CreateHook(function, idImage_GenerateImage, (LPVOID *)&GenerateImageEngine);
+		MH_EnableHook(function);
+	}
+
 	R_NonPowerOfTwoHack();
+	R_DisableOldMipGen();
 }
