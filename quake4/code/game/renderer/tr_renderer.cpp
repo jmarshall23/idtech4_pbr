@@ -96,20 +96,20 @@ void RB_STD_DrawView(void) {
 	// Draw the decals
 	RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, -10000, 3);
 
+	// Draw the VFX.
+	RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, 4, 4);
+
 	idRenderTexture::BindNull();
-	
-	// Clear the window depth buffer.
-	RB_BeginDrawingView();
 
 	// Draw the ambient
 	if (!(*backEnd_viewDef)->unknown3)
 	{
-		RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, 4, 7);
+		RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, 5, 7);
 	}
 
 	// Draw the post process
-	RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, 100, 10000);
-
-
-	RB_STD_DrawShaderPasses(drawSurfs, numDrawSurfs);
+	//RB_DrawSurfacesWithFlags(drawSurfs, numDrawSurfs, 100, 10000);
+	//
+	//
+	//RB_STD_DrawShaderPasses(drawSurfs, numDrawSurfs);
 }
