@@ -10,6 +10,7 @@
 idImage *hdrLightingImage = nullptr;
 idImage *forwardAlbedoImage = nullptr;
 idImage *forwardDepthImage = nullptr;
+idImage *forwardGlowImage = nullptr;
 
 bool *r_isInitilized = (bool *)(0x111243D7);
 
@@ -94,6 +95,7 @@ void R_InitGameRender(void) {
 
 	hdrLightingImage = globalImages->ImageFromFunction("_forwardHDRLighting", R_InitHDRLighting);
 	forwardAlbedoImage = globalImages->ImageFromFunction("_forwardAlbedo", R_InitAlbedo);
+	forwardGlowImage = globalImages->ImageFromFunction("_forwardGlow", R_InitAlbedo);
 	forwardDepthImage = globalImages->ImageFromFunction("_forwardDepth", R_InitDepthTexture);
 
 	basicOccluderVertex = R_FindARBProgram(GL_VERTEX_PROGRAM_ARB, "basicoccluder.vfp");
@@ -101,6 +103,7 @@ void R_InitGameRender(void) {
 
 	forwardRender = new idRenderTexture(hdrLightingImage, forwardDepthImage);
 	forwardRender->AddRenderImage(forwardAlbedoImage);
+	forwardRender->AddRenderImage(forwardGlowImage);
 	forwardRender->InitRenderTexture(false, true);
 
 	// Disable hardware brightness/gamma

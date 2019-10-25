@@ -1,7 +1,10 @@
 postprocess/newpost
 {
 	{
-		map _forwardHDRAlbedo
+		program post_newpost.vfp
+		fragmentMap 0 _forwardHDRLighting
+		fragmentMap 1 _forwardAlbedo
+		fragmentMap 2 _forwardGlow
 	}
 }
 

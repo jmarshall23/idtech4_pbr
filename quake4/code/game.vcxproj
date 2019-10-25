@@ -358,11 +358,31 @@
     <ClCompile Include="game\Player.cpp" />
     <ClCompile Include="game\Player_States.cpp" />
     <ClCompile Include="game\PlayerView.cpp" />
-    <ClCompile Include="game\script\Script_Compiler.cpp" />
-    <ClCompile Include="game\script\Script_Interpreter.cpp" />
-    <ClCompile Include="game\script\Script_Program.cpp" />
-    <ClCompile Include="game\script\Script_Thread.cpp" />
-    <ClCompile Include="game\script\ScriptFuncUtility.cpp" />
+    <ClCompile Include="game\script\Script_Compiler.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
+    <ClCompile Include="game\script\Script_Interpreter.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
+    <ClCompile Include="game\script\Script_Program.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
+    <ClCompile Include="game\script\Script_Thread.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
+    <ClCompile Include="game\script\ScriptFuncUtility.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
     <ClCompile Include="game\vehicle\Vehicle.cpp" />
     <ClCompile Include="game\vehicle\Vehicle_DropPod.cpp" />
     <ClCompile Include="game\vehicle\Vehicle_Walker.cpp" />

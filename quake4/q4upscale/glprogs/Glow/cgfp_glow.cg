@@ -10,9 +10,8 @@ void main(
 
     float4 diffuse = tex2D(diffuseImage, texcoord).rgba;
  
-    color0.xyzw = float4(0, 0, 0, diffuse.a);
-    color1.xyz = diffuse.rgb;
-    color1.a = 1;
-    color2.xyzw = float4(0, 0, 0, 0);
+    color0.xyzw = float4(0, 0, 0, 0);
+    color1.xyzw = float4(0, 0, 0, 0);
+    color2.xyzw = diffuse;
 }
 

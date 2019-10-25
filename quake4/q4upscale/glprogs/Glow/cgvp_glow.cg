@@ -1,0 +1,9 @@
+void main(
+           float4 position : POSITION ,
+	   float2 texCoord : ATTR8,
+	   out float2 diffuseST       : TEXCOORD0,
+ 	   out float4 hpos            : POSITION )
+{
+	 diffuseST = texCoord.xy;
+  	hpos = mul(glstate.matrix.mvp, position); 
+}

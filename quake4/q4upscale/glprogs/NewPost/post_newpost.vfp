@@ -390,18 +390,24 @@ END
 #program main
 #semantic main.litImage : TEXUNIT0
 #semantic main.albedoImage : TEXUNIT1
+#semantic main.glowImage : TEXUNIT2
 #var float4 diffuseST : $vin.TEXCOORD0 : TEX0 : 0 : 1
 #var sampler2D litImage : TEXUNIT0 : texunit 0 : 1 : 1
 #var sampler2D albedoImage : TEXUNIT1 : texunit 1 : 2 : 1
-#var float4 color : $vout.COLOR : COL : 3 : 1
+#var sampler2D glowImage : TEXUNIT2 : texunit 2 : 3 : 1
+#var float4 color : $vout.COLOR : COL : 4 : 1
 #const c[0] = 1 1.4 0.1 2
 #const c[1] = 0 -0.00092592591 -0.00052083336 0.00052083336
 #const c[2] = 0 0.00092592591 -0.00052083336 0.00052083336
-#const c[3] = -0.2 4
-PARAM c[4] = { { 1, 1.4, 0.1, 2 },
+#const c[3] = -0.2 4 0.19648255 0.29690698
+#const c[4] = 0.00073529413 0 0.0017156863 0.094470397
+#const c[5] = 0.0026960785 0 0.010381362
+PARAM c[6] = { { 1, 1.4, 0.1, 2 },
 		{ 0, -0.00092592591, -0.00052083336, 0.00052083336 },
 		{ 0, 0.00092592591, -0.00052083336, 0.00052083336 },
-		{ -0.2, 4 } };
+		{ -0.2, 4, 0.19648255, 0.29690698 },
+		{ 0.00073529413, 0, 0.0017156863, 0.094470397 },
+		{ 0.0026960785, 0, 0.010381362 } };
 TEMP R0;
 TEMP R1;
 TEMP R2;
@@ -468,71 +474,93 @@ MAX R1.x, R5.z, R6.z;
 MAX R1.x, R1.w, R1;
 MAX R2.x, R7.z, R8.z;
 MAX R2.x, R1, R2;
+ADD R2.x, R1.w, R2;
 RCP R0.w, R0.w;
 MUL_SAT R1.x, R0, R0.w;
-ADD R0.x, R1.w, R2;
-MIN R0.w, R2.z, R3.z;
-MIN R1.w, R4.z, R0.z;
-MIN R0.w, R1.z, R0;
+MIN R0.x, R2.z, R3.z;
+MIN R0.w, R4.z, R0.z;
+MIN R0.x, R1.z, R0;
+MIN R0.x, R0, R0.w;
+MIN R0.w, R5.z, R6.z;
+MIN R1.w, R7.z, R8.z;
+MIN R0.w, R0.x, R0;
 MIN R0.w, R0, R1;
-MIN R1.w, R5.z, R6.z;
-MIN R2.x, R7.z, R8.z;
-MIN R1.w, R0, R1;
-MIN R1.w, R1, R2.x;
-ADD R0.w, R0, R1;
-ADD R2.x, -R0, c[0].w;
-MIN R2.w, R0, R2.x;
-RCP R0.x, R0.x;
-MUL_SAT R3.x, R2.w, R0;
-MAX R0.w, R2.y, R3.y;
-MIN R0.x, R2.y, R3.y;
-MAX R1.w, R4.y, R0.y;
-MAX R0.w, R1.y, R0;
+ADD R0.x, R0, R0.w;
+ADD R1.w, -R2.x, c[0];
+MIN R2.w, R0.x, R1;
+MAX R0.x, R2.y, R3.y;
+MAX R0.w, R4.y, R0.y;
+MAX R0.x, R1.y, R0;
+MAX R0.x, R0, R0.w;
+MAX R0.w, R5.y, R6.y;
+RCP R2.x, R2.x;
+MAX R1.w, R7.y, R8.y;
+MAX R0.w, R0.x, R0;
 MAX R0.w, R0, R1;
-MAX R1.w, R5.y, R6.y;
-MAX R2.x, R7.y, R8.y;
-MAX R1.w, R0, R1;
-MAX R1.w, R1, R2.x;
-ADD R2.x, R0.w, R1.w;
+MUL_SAT R1.w, R2, R2.x;
+ADD R2.x, R0, R0.w;
+RSQ R3.x, R1.w;
+MIN R0.x, R2.y, R3.y;
 MIN R0.w, R4.y, R0.y;
 MIN R0.x, R1.y, R0;
 MIN R0.x, R0, R0.w;
 MIN R0.w, R5.y, R6.y;
+RCP R2.w, R2.x;
 MIN R1.w, R7.y, R8.y;
 MIN R0.w, R0.x, R0;
 MIN R0.w, R0, R1;
 ADD R0.x, R0, R0.w;
 ADD R1.w, -R2.x, c[0];
-RSQ R0.w, R3.x;
+RCP R0.w, R3.x;
+MUL R0.w, R0, c[3].x;
+MUL R1.z, R1, R0.w;
+MAD R1.z, R0, R0.w, R1;
 MIN R0.x, R0, R1.w;
-RCP R0.w, R0.w;
-MUL R1.w, R0, c[3].x;
-RCP R2.w, R2.x;
 MUL_SAT R0.x, R0, R2.w;
 RSQ R0.x, R0.x;
 RCP R0.x, R0.x;
 MUL R0.x, R0, c[3];
-MUL R0.w, R1.y, R0.x;
-MAD R0.y, R0, R0.x, R0.w;
-MUL R1.z, R1, R1.w;
-MAD R1.z, R0, R1.w, R1;
-MUL R0.z, R0.x, c[3].y;
+MUL R0.z, R1.y, R0.x;
+MAD R0.y, R0, R0.x, R0.z;
 MAD R0.y, R3, R0.x, R0;
+MUL R0.z, R0.x, c[3].y;
 MAD R0.x, R4.y, R0, R0.y;
+ADD R0.x, R2.y, R0;
 ADD R0.z, R0, c[0].x;
 RCP R0.y, R0.z;
-ADD R0.x, R2.y, R0;
 MUL_SAT R1.y, R0.x, R0;
-MAD R0.x, R3.z, R1.w, R1.z;
-MAD R0.x, R4.z, R1.w, R0;
-MUL R0.y, R1.w, c[3];
-ADD R0.y, R0, c[0].x;
-ADD R0.w, R2.z, R0.x;
-RCP R1.z, R0.y;
+MAD R1.z, R3, R0.w, R1;
+MAD R0.x, R4.z, R0.w, R1.z;
+MUL R0.y, R0.w, c[3];
+ADD R1.z, R2, R0.x;
+ADD R0.x, R0.y, c[0];
+RCP R0.w, R0.x;
+ADD R2.xy, fragment.texcoord[0], c[4];
+TEX R2.xyz, R2, texture[2], 2D;
+TEX R0.xyz, fragment.texcoord[0], texture[2], 2D;
+MUL R2.xyz, R2, c[3].w;
+ADD R3.xy, fragment.texcoord[0], -c[4];
+MAD R2.xyz, R0, c[3].z, R2;
+TEX R0.xyz, R3, texture[2], 2D;
+ADD R3.xy, fragment.texcoord[0], c[4].zyzw;
+MAD R2.xyz, R0, c[3].w, R2;
+TEX R0.xyz, R3, texture[2], 2D;
+ADD R3.xy, fragment.texcoord[0], -c[4].zyzw;
+MAD R2.xyz, R0, c[4].w, R2;
+TEX R0.xyz, R3, texture[2], 2D;
+ADD R3.xy, fragment.texcoord[0], c[5];
+MAD R2.xyz, R0, c[4].w, R2;
+TEX R0.xyz, R3, texture[2], 2D;
+MAD R2.xyz, R0, c[5].z, R2;
+ADD R3.xy, fragment.texcoord[0], -c[5];
+TEX R0.xyz, R3, texture[2], 2D;
+MAD R0.xyz, R0, c[5].z, R2;
+ADD R2.xyz, R0, R0;
 TEX R0.xyz, fragment.texcoord[0], texture[0], 2D;
-MUL_SAT R1.z, R0.w, R1;
+MUL_SAT R1.z, R1, R0.w;
+MUL R2.xyz, R2, c[0].w;
 MAD R0.xyz, R0, c[0].y, c[0].z;
-MUL result.color.xyz, R0, R1;
+MAD result.color.xyz, R0, R1, R2;
 MOV result.color.w, c[0].x;
 END
-# 123 instructions, 9 R-regs
+# 145 instructions, 9 R-regs

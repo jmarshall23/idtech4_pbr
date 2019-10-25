@@ -1,7 +1,7 @@
 !!ARBvp1.0
 # cgc version 3.1.0013, build date Apr 18 2012
 # command line args: -quiet -profile arbvp1
-# source file: cgvp_basicoccluder.cg
+# source file: cgvp_glow.cg
 #vendor NVIDIA Corporation
 #version 3.1.0.13
 #profile arbvp1
@@ -384,7 +384,7 @@ END
 OPTION ATI_draw_buffers;
 # cgc version 3.1.0013, build date Apr 18 2012
 # command line args: -quiet -profile arbfp1
-# source file: cgfp_basicoccluder.cg
+# source file: cgfp_glow.cg
 #vendor NVIDIA Corporation
 #version 3.1.0.13
 #profile arbfp1
@@ -395,14 +395,10 @@ OPTION ATI_draw_buffers;
 #var float4 color0 : $vout.COLOR0 : COL : 2 : 1
 #var float4 color1 : $vout.COLOR1 : COL1 : 3 : 1
 #var float4 color2 : $vout.COLOR2 : COL2 : 4 : 1
-#const c[0] = 0 1
-PARAM c[1] = { { 0, 1 } };
-TEMP R0;
-TEX R0, fragment.texcoord[0], texture[4], 2D;
-MOV result.color[2], c[0].x;
-MOV result.color[1].xyz, R0;
-MOV result.color.w, R0;
-MOV result.color.xyz, c[0].x;
-MOV result.color[1].w, c[0].y;
+#const c[0] = 0
+PARAM c[1] = { { 0 } };
+TEX result.color[2], fragment.texcoord[0], texture[4], 2D;
+MOV result.color[1], c[0].x;
+MOV result.color, c[0].x;
 END
-# 6 instructions, 1 R-regs
+# 3 instructions, 0 R-regs

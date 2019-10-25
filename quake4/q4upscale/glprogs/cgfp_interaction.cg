@@ -89,7 +89,8 @@ void main(
 	   uniform samplerCUBE normalCubeMapImage : TEXUNIT0,
 	   uniform sampler2D   specularTableImage : TEXUNIT6,
            out float4  color0 : COLOR0,
-           out float4  color1 : COLOR1)
+           out float4  color1 : COLOR1,
+	   out float4  color2 : COLOR2)
 {
 
    float3 L = texCUBE( normalCubeMapImage, lightVector ).xyz * 2 - 1;
@@ -128,5 +129,6 @@ void main(
 
    color0 = Cl * NdotL * Cd + (float4(pbr.x, pbr.y, pbr.z, 0.0) * specular * Cl);
  color1 = float4(0, 0, 0, 0);
+ color2 = float4(0, 0, 0, 0);
 }
 

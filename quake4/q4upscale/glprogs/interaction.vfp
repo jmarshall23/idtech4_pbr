@@ -493,6 +493,7 @@ OPTION ATI_draw_buffers;
 #var sampler2D specularTableImage : TEXUNIT6 : texunit 6 : 17 : 0
 #var float4 color0 : $vout.COLOR0 : COL : 18 : 1
 #var float4 color1 : $vout.COLOR1 : COL1 : 19 : 1
+#var float4 color2 : $vout.COLOR2 : COL2 : 20 : 1
 #const c[0] = 0 2 1 0.125
 #const c[1] = 0.039999999 0.5 5 4
 #const c[2] = 0.001 0.31830987
@@ -569,6 +570,7 @@ MUL R1, R0, R2;
 DP3_SAT R3.x, R3, R4;
 MUL R0, R0, R3.x;
 MAD result.color, R0, env[0], R1;
+MOV result.color[2], c[0].x;
 MOV result.color[1], c[0].x;
 END
-# 65 instructions, 5 R-regs
+# 66 instructions, 5 R-regs
