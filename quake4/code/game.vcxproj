@@ -221,6 +221,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="engine2\renderer\draw_arb2.cpp" />
+    <ClCompile Include="engine2\renderer\draw_common.cpp" />
+    <ClCompile Include="engine2\renderer\tr_image.cpp" />
+    <ClCompile Include="engine2\renderer\tr_inject.cpp" />
+    <ClCompile Include="engine2\renderer\tr_main.cpp" />
+    <ClCompile Include="engine2\renderer\tr_renderer.cpp" />
+    <ClCompile Include="engine2\renderer\tr_rendertexture.cpp" />
     <ClCompile Include="external\glew\glew.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">NotUsing</PrecompiledHeader>
@@ -260,13 +267,6 @@
     <ClCompile Include="game\Player_Cheats.cpp" />
     <ClCompile Include="game\Projectile.cpp" />
     <ClCompile Include="game\Pvs.cpp" />
-    <ClCompile Include="game\renderer\draw_arb2.cpp" />
-    <ClCompile Include="game\renderer\draw_common.cpp" />
-    <ClCompile Include="game\renderer\tr_image.cpp" />
-    <ClCompile Include="game\renderer\tr_inject.cpp" />
-    <ClCompile Include="game\renderer\tr_main.cpp" />
-    <ClCompile Include="game\renderer\tr_renderer.cpp" />
-    <ClCompile Include="game\renderer\tr_rendertexture.cpp" />
     <ClCompile Include="game\SecurityCamera.cpp" />
     <ClCompile Include="game\Sound.cpp" />
     <ClCompile Include="game\SplineMover.cpp" />
@@ -418,6 +418,9 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="engine2\memoryinject\MinHook.h" />
+    <ClInclude Include="engine2\renderer\tr_gamerender.h" />
+    <ClInclude Include="engine2\renderer\tr_rendertexture.h" />
     <ClInclude Include="external\glew\glew.h" />
     <ClInclude Include="external\glew\wglew.h" />
     <ClInclude Include="game\Actor.h" />
@@ -443,15 +446,12 @@
     <ClInclude Include="game\Item.h" />
     <ClInclude Include="game\Light.h" />
     <ClInclude Include="game\LipSync.h" />
-    <ClInclude Include="game\memoryinject\MinHook.h" />
     <ClInclude Include="game\Misc.h" />
     <ClInclude Include="game\Moveable.h" />
     <ClInclude Include="game\Mover.h" />
     <ClInclude Include="game\MultiplayerGame.h" />
     <ClInclude Include="game\Projectile.h" />
     <ClInclude Include="game\Pvs.h" />
-    <ClInclude Include="game\renderer\tr_gamerender.h" />
-    <ClInclude Include="game\renderer\tr_rendertexture.h" />
     <ClInclude Include="game\SecurityCamera.h" />
     <ClInclude Include="game\Sound.h" />
     <ClInclude Include="game\SplineMover.h" />
@@ -538,7 +538,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="game\memoryinject\MinHook.x86.lib" />
+    <Library Include="engine2\memoryinject\MinHook.x86.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

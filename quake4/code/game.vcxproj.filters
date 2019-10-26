@@ -37,17 +37,20 @@
     <Filter Include="Game\MP\Stats">
       <UniqueIdentifier>{b0331c0d-1cc1-41cd-ad58-29560053c0bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Renderer">
-      <UniqueIdentifier>{6f0ce8a3-b8a9-4125-a056-76afb7bb6017}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\MemoryInject">
-      <UniqueIdentifier>{a034250d-694e-41fc-84ba-d412e1ac271e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="External">
       <UniqueIdentifier>{83fdff4f-2faa-47a5-ae06-c136c859697f}</UniqueIdentifier>
     </Filter>
     <Filter Include="External\glew">
       <UniqueIdentifier>{c000ce81-62ca-4fa2-a242-1db9388acb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine2">
+      <UniqueIdentifier>{38c28ba5-fe2d-4312-8cbe-a290bf65465d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine2\Renderer">
+      <UniqueIdentifier>{6cceaab5-ebe5-426a-baea-74550b82b953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine2\Memoryinject">
+      <UniqueIdentifier>{c64f9366-cfc1-4fcc-8bb6-0e1e010e7cc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -528,29 +531,29 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp">
       <Filter>Game\MP\Stats</Filter>
     </ClCompile>
-    <ClCompile Include="game\renderer\tr_inject.cpp">
-      <Filter>Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="game\renderer\draw_arb2.cpp">
-      <Filter>Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="game\renderer\tr_renderer.cpp">
-      <Filter>Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="game\renderer\tr_image.cpp">
-      <Filter>Game\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="game\renderer\tr_main.cpp">
-      <Filter>Game\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="external\glew\glew.c">
       <Filter>External\glew</Filter>
     </ClCompile>
-    <ClCompile Include="game\renderer\tr_rendertexture.cpp">
-      <Filter>Game\Renderer</Filter>
+    <ClCompile Include="engine2\renderer\draw_arb2.cpp">
+      <Filter>Engine2\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="game\renderer\draw_common.cpp">
-      <Filter>Game\Renderer</Filter>
+    <ClCompile Include="engine2\renderer\draw_common.cpp">
+      <Filter>Engine2\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="engine2\renderer\tr_image.cpp">
+      <Filter>Engine2\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="engine2\renderer\tr_inject.cpp">
+      <Filter>Engine2\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="engine2\renderer\tr_main.cpp">
+      <Filter>Engine2\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="engine2\renderer\tr_renderer.cpp">
+      <Filter>Engine2\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="engine2\renderer\tr_rendertexture.cpp">
+      <Filter>Engine2\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -866,28 +869,28 @@
     <ClInclude Include="game\mp\stats\StatWindow.h">
       <Filter>Game\MP\Stats</Filter>
     </ClInclude>
-    <ClInclude Include="game\memoryinject\MinHook.h">
-      <Filter>Game\MemoryInject</Filter>
-    </ClInclude>
-    <ClInclude Include="game\renderer\tr_gamerender.h">
-      <Filter>Game\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="external\glew\glew.h">
       <Filter>External\glew</Filter>
     </ClInclude>
     <ClInclude Include="external\glew\wglew.h">
       <Filter>External\glew</Filter>
     </ClInclude>
-    <ClInclude Include="game\renderer\tr_rendertexture.h">
-      <Filter>Game\Renderer</Filter>
+    <ClInclude Include="engine2\renderer\tr_rendertexture.h">
+      <Filter>Engine2\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="engine2\renderer\tr_gamerender.h">
+      <Filter>Engine2\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="engine2\memoryinject\MinHook.h">
+      <Filter>Engine2\Memoryinject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="game\memoryinject\MinHook.x86.lib">
-      <Filter>Game\MemoryInject</Filter>
+    <Library Include="engine2\memoryinject\MinHook.x86.lib">
+      <Filter>Engine2\Memoryinject</Filter>
     </Library>
   </ItemGroup>
 </Project>

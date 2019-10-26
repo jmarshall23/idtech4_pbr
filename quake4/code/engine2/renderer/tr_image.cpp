@@ -4,7 +4,6 @@
 #include "../../idlib/precompiled.h"
 #pragma hdrstop
 
-#include "../Game_local.h"
 #include "tr_gamerender.h"
 
 typedef struct _TargaHeader {

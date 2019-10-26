@@ -4,7 +4,6 @@
 #include "../../idlib/precompiled.h"
 #pragma hdrstop
 
-#include "../Game_local.h"
 #include "tr_gamerender.h"
 
 idCVar r_skipRender("r_skipRender", "0", CVAR_RENDERER | CVAR_BOOL, "skip 3D rendering, but pass 2D");
