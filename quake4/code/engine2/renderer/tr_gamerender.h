@@ -31,6 +31,12 @@ public:
 
 	int unknown2;
 	GLuint texnum;
+	
+	void Bind(void)
+	{
+		void(__fastcall *Bind)(idImage *_this, byte *notUsed) = (void(__fastcall *)(idImage *, byte *))0x100BAC20;
+		Bind(this, nullptr);
+	}
 };
 
 typedef struct drawSurf_s {
@@ -57,6 +63,18 @@ struct drawInteraction_t {
 
 	idVec4				diffuseColor;	// may have a light color baked into it, will be < tr.backEndRendererMaxLight
 	idVec4				specularColor;	// may have a light color baked into it, will be < tr.backEndRendererMaxLight
+	//stageVertexColor_t	vertexColor;	// applies to both diffuse and specular
+	void				*unknownData;
+
+	int					ambientLight;	// use tr.ambientNormalMap instead of normalization cube map 
+	// (not a bool just to avoid an uninitialized memory check of the pad region by valgrind)
+	// these are loaded into the vertex program
+	idVec4				localLightOrigin;
+	idVec4				localViewOrigin;
+	idVec4				lightProjection[4];	// in local coordinates, possibly with a texture matrix baked in
+	idVec4				bumpMatrix[2];
+	idVec4				diffuseMatrix[2];
+	idVec4				specularMatrix[2];
 };
 
 class idImageManager {
@@ -67,6 +85,55 @@ public:
 	virtual idImage *			GetImage(const char *name) const = 0;
 	virtual idImage *			ImageFromFunction(const char *name, void(*generatorFunction)(idImage *image)) = 0;
 };
+
+/*
+
+  All vertex programs use the same constant register layout:
+
+c[4]	localLightOrigin
+c[5]	localViewOrigin
+c[6]	lightProjection S
+c[7]	lightProjection T
+c[8]	lightProjection Q
+c[9]	lightFalloff	S
+c[10]	bumpMatrix S
+c[11]	bumpMatrix T
+c[12]	diffuseMatrix S
+c[13]	diffuseMatrix T
+c[14]	specularMatrix S
+c[15]	specularMatrix T
+
+
+c[20]	light falloff tq constant
+
+// texture 0 was cube map
+// texture 1 will be the per-surface bump map
+// texture 2 will be the light falloff texture
+// texture 3 will be the light projection texture
+// texture 4 is the per-surface diffuse map
+// texture 5 is the per-surface specular map
+// texture 6 is the specular half angle cube map
+
+*/
+
+typedef enum {
+	PP_LIGHT_ORIGIN = 4,
+	PP_VIEW_ORIGIN,
+	PP_LIGHT_PROJECT_S,
+	PP_LIGHT_PROJECT_T,
+	PP_LIGHT_PROJECT_Q,
+	PP_LIGHT_FALLOFF_S,
+	PP_BUMP_MATRIX_S,
+	PP_BUMP_MATRIX_T,
+	PP_DIFFUSE_MATRIX_S,
+	PP_DIFFUSE_MATRIX_T,
+	PP_SPECULAR_MATRIX_S,
+	PP_SPECULAR_MATRIX_T,
+	PP_COLOR_MODULATE,
+	PP_COLOR_ADD,
+
+	PP_LIGHT_FALLOFF_TQ = 20	// only for NV programs
+} programParameter_t;
 
 extern idImageManager *globalImages;
 
@@ -89,6 +156,7 @@ extern void(*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
 extern void *(*R_StaticAlloc)(int size);
 extern int(*R_FindARBProgram)(GLenum target, const char *program);
 extern void(*RB_T_FillDepthBufferEngine)(const drawSurf_t *surf);
+extern void(*RB_DrawElementsWithCounters)(const srfTriangles_t *tri);
 
 extern void(*GL_SelectTexture)(int unit);
 

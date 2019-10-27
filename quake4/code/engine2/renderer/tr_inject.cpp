@@ -17,6 +17,8 @@ void(__fastcall *GenerateImageEngine)(idImage *_this, byte *notUsed, const byte 
 void *(*R_StaticAlloc)(int size) = (void *(__cdecl *)(int))0x10129100;
 void *(__fastcall * idImage_GetDownsizeEngine)(void *_this, int &scaled_width, int &scaled_height);
 
+void(*RB_DrawElementsWithCounters)(const srfTriangles_t *tri) = (void(__cdecl *)(const srfTriangles_t *))0x1012B320;
+
 idImageManager *globalImages = *((idImageManager **)0x10316B10);
 
 void R_MemPatch(char* dst, char* src, int size)
