@@ -61,26 +61,30 @@ void RB_ARB2_DrawInteraction(drawInteraction_t *din) {
 	//	glProgramEnvParameter4fvARB(GL_FRAGMENT_PROGRAM_ARB, 3, din->localViewOrigin.ToFloatPtr());
 	//}
 
-	//static const float zero[4] = { 0, 1, 0, 0 };
-	//static const float one[4] = { 1, 1, 1, 1 };
-	//static const float negOne[4] = { -1, -1, -1, -1 };
-	//
-	//switch (din->vertexColor) {
-	//case SVC_IGNORE:
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, zero);
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one);
-	//	break;
-	//case SVC_MODULATE:
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, one);
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, zero);
-	//	break;
-	//case SVC_INVERSE_MODULATE:
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, negOne);
-	//	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one);
-	//	break;
-	//}
-	static const float zero[4] = { 0, 1, 0, 0 };
-	glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, zero);
+	int v2 = *((DWORD *)din + 14);
+	if (v2)
+	{
+		int v3 = v2 - 1;
+		if (v3)
+		{
+			if (v3 == 1) {
+				const float *unknown = (const float *)0x102C848C;
+				glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, unknown);
+			}
+		}
+		else
+		{
+			const float *unknown = (const float *)0x102C847C;
+			glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, unknown);
+		}
+	}
+	else
+	{
+		static const float unknown[4] = { 0, 1, 0, 0 };
+		glProgramEnvParameter4fvARB(GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, unknown);
+	}
+
+
 
 	// set the constant colors
 	glProgramEnvParameter4fvARB(GL_FRAGMENT_PROGRAM_ARB, 0, din->diffuseColor.ToFloatPtr());
