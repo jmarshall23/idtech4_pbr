@@ -6,6 +6,8 @@
 
 #include "tr_gamerender.h"
 
+HWND(*game_window) = (HWND *)0x11367190;
+
 void (*RB_ARB2_DrawInteractionEngine)(drawInteraction_t *din);
 void (*R_LoadImageEngine)(const char *name, byte **pic, int *width, int *height, unsigned int *timestamp);
 void(*RB_STD_DrawViewEngine)(void);
@@ -23,6 +25,10 @@ void R_MemPatch(char* dst, char* src, int size)
 	VirtualProtect(dst, size, PAGE_EXECUTE_READWRITE, &oldprotect);
 	memcpy(dst, src, size);
 	VirtualProtect(dst, size, oldprotect, &oldprotect);
+}
+
+HWND R_GetWindowHandle(void) {
+	return *game_window;
 }
 
 /*

@@ -74,6 +74,8 @@ void R_InitInjection(void);
 
 void R_InitGameRender(void);
 
+HWND R_GetWindowHandle(void);
+
 void RB_ARB2_DrawInteraction(drawInteraction_t *din);
 void RB_STD_DrawView(void);
 void R_LoadImage(const char *cname, byte **pic, int *width, int *height, unsigned int *timestamp, bool makePowerOf2);

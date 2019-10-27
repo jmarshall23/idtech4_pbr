@@ -228,6 +228,7 @@
     <ClCompile Include="engine2\renderer\tr_main.cpp" />
     <ClCompile Include="engine2\renderer\tr_renderer.cpp" />
     <ClCompile Include="engine2\renderer\tr_rendertexture.cpp" />
+    <ClCompile Include="engine2\Tools\Tools_main.cpp" />
     <ClCompile Include="external\glew\glew.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">NotUsing</PrecompiledHeader>
@@ -421,6 +422,8 @@
     <ClInclude Include="engine2\memoryinject\MinHook.h" />
     <ClInclude Include="engine2\renderer\tr_gamerender.h" />
     <ClInclude Include="engine2\renderer\tr_rendertexture.h" />
+    <ClInclude Include="engine2\Tools\Tools_local.h" />
+    <ClInclude Include="engine2\Tools\Tools_public.h" />
     <ClInclude Include="external\glew\glew.h" />
     <ClInclude Include="external\glew\wglew.h" />
     <ClInclude Include="game\Actor.h" />

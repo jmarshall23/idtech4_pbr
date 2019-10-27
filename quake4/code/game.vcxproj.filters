@@ -52,6 +52,12 @@
     <Filter Include="Engine2\Memoryinject">
       <UniqueIdentifier>{c64f9366-cfc1-4fcc-8bb6-0e1e010e7cc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine2\Tools">
+      <UniqueIdentifier>{48b6669c-e9c5-4b9e-88d7-849c34b69705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine2\Tools\Radiant">
+      <UniqueIdentifier>{aad912bc-85ca-4bbe-8e9b-5abef4718fde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game\Actor.cpp">
@@ -555,6 +561,9 @@
     <ClCompile Include="engine2\renderer\tr_rendertexture.cpp">
       <Filter>Engine2\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="engine2\Tools\Tools_main.cpp">
+      <Filter>Engine2\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -883,6 +892,12 @@
     </ClInclude>
     <ClInclude Include="engine2\memoryinject\MinHook.h">
       <Filter>Engine2\Memoryinject</Filter>
+    </ClInclude>
+    <ClInclude Include="engine2\Tools\Tools_local.h">
+      <Filter>Engine2\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="engine2\Tools\Tools_public.h">
+      <Filter>Engine2\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
