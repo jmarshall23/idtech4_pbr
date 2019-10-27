@@ -26,7 +26,7 @@ struct viewLight_t {
 	idRenderLight *	lightDef;
 };
 
-void(*RB_Unknown_ARB2Function1)(void *param, int unknown);
+void(*RB_Unknown_ARB2Function1)(DWORD param, int unknown) = (void(__cdecl *)(DWORD, int))0x1011F470;
 
 viewLight_t **backEndViewLight = (viewLight_t **)0x11124E58;
 
@@ -90,7 +90,7 @@ void RB_ARB2_DrawInteraction(drawInteraction_t *din) {
 	specColor = din->specularColor + din->specularColor;
 	glProgramEnvParameter4fvARB(GL_FRAGMENT_PROGRAM_ARB, 1, specColor.ToFloatPtr());
 
-	//RB_Unknown_ARB2Function1(din->unknownData, 1);
+	RB_Unknown_ARB2Function1(*(DWORD *)(*(DWORD *)din + 8), 1);
 
 	// set the textures
 
@@ -117,5 +117,5 @@ void RB_ARB2_DrawInteraction(drawInteraction_t *din) {
 	// draw it
 	RB_DrawElementsWithCounters(din->surf->geo);
 
-	//RB_Unknown_ARB2Function1(din->unknownData, 0);
+	RB_Unknown_ARB2Function1(*(DWORD *)(*(DWORD *)din + 8), 0);
 }
